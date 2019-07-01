@@ -1,16 +1,22 @@
 <html>
-  <head>
-    <title>账单</title>
-    {# <link rel="stylesheet" href="/public/css/news.css" /> #}
-  </head>
-  <body>
-    {# <ul class="news-view view">
+    <head>
+        <title>账单</title>
+        {# <link rel="stylesheet" href="/public/css/news.css" /> #}
+    </head>
+    <body>
+        {# <ul class="news-view view">
       {% for item in list %}
         <li class="item">
           <a href="{{ item.url }}">{{ item.title }}</a>
         </li>
       {% endfor %}
     </ul> #}
-    123
-  </body>
+        <ul>
+            {% for item in accountList %}
+                <li>
+                    {{item.name}}
+                </li>
+            {% endfor %}
+        </ul>
+    </body>
 </html>
