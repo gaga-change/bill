@@ -75,21 +75,77 @@
           </div>
         </div>
       </form>
+      <table id="recordTable" lay-filter="recordTable"></table>
     </div>
     <script src="//cdn.junn.top/layui/2.4.3/layui.js"></script>
+    <script type="text/html" id="recordTableBar">
+      <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+    </script>
+
     <script>
 
       layui.use([
-        'form', 'laydate', 'element', 'jquery'
+        'form',
+        'laydate',
+        'element',
+        'jquery',
+        'table',
+        'util'
       ], function () {
         var form = layui.form,
           layer = layui.layer,
           element = layui.element,
           $ = layui.jquery,
+          table = layui.table,
+          util = layui.util,
           laydate = layui.laydate;
         var chooseId = null;
         init()
         function init() {
+          //第一个实例
+          table.render({
+            elem: '#recordTable', url: '/api/records', //数据接口
+            parseData: function (res) { //res 即为原始返回的数据
+              return {
+                "code": 0, //解析接口状态
+                "msg": '', //解析提示文本
+                "count": res.count, //解析数据长度
+                "data": res
+                  .records
+                  .map(function (item) {
+                    item.classifyName = item.classify && item.classify.name
+                    item.date = util.toDateString(item.date, 'yyyy-MM-dd HH:mm:ss')
+                    return item
+                  }) //解析数据列表
+              };
+            },
+            request: {
+              pageName: 'page', //页码的参数名称，默认：page
+              limitName: 'pageSize' //每页数据量的参数名，默认：limit
+            },
+            page: true, //开启分页
+            cols: [
+              [
+                {
+                  field: 'classifyName',
+                  title: '分类'
+                }, {
+                  field: 'price',
+                  title: '金额'
+                }, {
+                  field: 'remark',
+                  title: '备注'
+                }, {
+                  field: 'date',
+                  title: '时间'
+                }, {
+                  title: '操作',
+                  toolbar: '#recordTableBar',
+                  width: 150
+                }
+              ]
+            ]
+          });
           laydate.render({elem: '#date', type: 'datetime', value: new Date()});
           var ele = $('[data-name=早餐]').closest('.layui-tab-item')
           var checkTabIndex = 1
@@ -129,6 +185,25 @@
           createRecord(data.field)
           return false;
         });
+        
+        //监听行工具事件
+        table.on('tool(recordTable)', function (obj) {
+          var data = obj.data;
+          if (obj.event === 'del') {
+            layer.confirm('真的删除行么', function (index) {
+              obj.del();
+              $.ajax({
+                url: '/api/records/' + data._id,
+                type: 'delete',
+                data: JSON.stringify({_csrf: $('[name=_csrf]').val()}),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (res) {}
+              });
+              layer.close(index);
+            });
+          }
+        });
 
         function createRecord(data) {
           $.ajax({
@@ -138,7 +213,13 @@
             contentType: "application/json; charset=utf-8",
             dataType: "json",
             success: function (res) {
-              form.val("classifyForm", {price: '', remark: ''})
+              form.val("classifyForm", {
+                price: '',
+                remark: ''
+              })
+              table.reload('recordTable', {
+                where: {} //设定异步数据接口的额外参数
+              });
             }
           });
         }
