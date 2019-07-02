@@ -3,7 +3,7 @@
 const Controller = require('egg').Controller;
 
 const createRule = {
-  price: 'int',
+  price: 'number',
   date: 'dateTime',
 };
 
@@ -15,7 +15,7 @@ class RecordsController extends Controller {
     const page = Number(ctx.query.page) || 1;
     const recordList = await Record.find({})
       .populate('account classify')
-      .sort({ date: -1 })
+      .sort({ date: -1, createdAt: -1 })
       .limit(pageSize)
       .skip((page - 1) * pageSize);
     ctx.body = {
