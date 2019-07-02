@@ -11,7 +11,12 @@ class HomeController extends Controller {
         { $group: { _id: '$genera', children: { $push: '$$ROOT' } } },
       ]
     );
-    await ctx.render('index.tpl', { accountList });
+    const generaList = await ctx.model.Genera.find({});
+    const generaMap = {};
+    generaList.forEach(({ id, name }) => {
+      generaMap[id] = name;
+    });
+    await ctx.render('index.tpl', { accountList, classifyList, generaMap });
   }
 }
 
