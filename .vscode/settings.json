@@ -1,5 +1,8 @@
 {
     "emmet.includeLanguages": {
         "nunjucks": "html"
-    }
+    },
+    "editor.tabSize": 2,
+    "editor.detectIndentation": false,
+    "eslint.autoFixOnSave": true
 }
