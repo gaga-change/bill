@@ -2,9 +2,9 @@
 const Service = require('egg').Service;
 
 /**
- * 账户
+ * 归属，大类
  */
-class AccountService extends Service {
+class GeneraService extends Service {
   findAll() {
     return [
       {
@@ -19,4 +19,4 @@ class AccountService extends Service {
   }
 }
 
-module.exports = AccountService;
+module.exports = GeneraService;

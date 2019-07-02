@@ -2,6 +2,8 @@
 
 'use strict';
 
+const { mongodbConnectLink } = require('./mongo');
+
 /**
  * @param {Egg.EggAppInfo} appInfo app info
  */
@@ -26,6 +28,11 @@ module.exports = appInfo => {
       mapping: {
         '.tpl': 'nunjucks',
       },
+    },
+    mongoose: {
+      url: mongodbConnectLink,
+      options: {},
+      plugins: [],
     },
   };
 
