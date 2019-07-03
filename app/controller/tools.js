@@ -23,15 +23,15 @@ class ToolsController extends Controller {
     }
 
     for (let i = 0; i < classifyInit.length; i++) {
-      const { name, children } = classifyInit[i];
-      const { lastErrorObject, value } = await Genera.findOneAndUpdate({ name }, {}, { upsert: true, rawResult: true });
+      const { name, children, type } = classifyInit[i];
+      const { lastErrorObject, value } = await Genera.findOneAndUpdate({ name }, { type }, { upsert: true, rawResult: true });
       if (!value) {
         saveGeneraNum++;
       }
       const generaId = lastErrorObject.upserted || value._id;
       for (let j = 0; j < children.length; j++) {
         const classifyName = children[j];
-        const findClassify = await Classify.findOneAndUpdate({ name: classifyName, genera: generaId }, {}, { upsert: true });
+        const findClassify = await Classify.findOneAndUpdate({ name: classifyName, genera: generaId }, { type }, { upsert: true });
         if (!findClassify) saveClassifyNum++;
       }
     }
