@@ -114,7 +114,7 @@
                   .records
                   .map(function (item) {
                     item.classifyName = item.classify && item.classify.name
-                    item.date = util.toDateString(item.date, 'yyyy-MM-dd HH:mm:ss')
+                    item.date = util.toDateString(item.date, 'MM-dd HH:mm')
                     return item
                   }) //解析数据列表
               };
@@ -140,8 +140,7 @@
                   title: '时间'
                 }, {
                   title: '操作',
-                  toolbar: '#recordTableBar',
-                  width: 150
+                  toolbar: '#recordTableBar'
                 }
               ]
             ]
