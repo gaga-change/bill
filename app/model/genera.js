@@ -7,7 +7,7 @@ module.exports = app => {
   const GeneraSchema = new Schema({
     name: { type: String, default: '', trim: true }, // 名称
     remark: { type: String, default: '', trim: true }, // 备注
-    type: { type: Number, default: 1 }, // 类型
+    type: { type: Number, default: 1 }, // 类型  1：消费 2：收入 3：转账 4：借贷
   }, {
     timestamps: true,
   });

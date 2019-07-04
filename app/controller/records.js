@@ -5,6 +5,7 @@ const Controller = require('egg').Controller;
 const createRule = {
   price: 'number',
   date: 'dateTime',
+  classify: 'string',
 };
 
 class RecordsController extends Controller {
@@ -23,15 +24,30 @@ class RecordsController extends Controller {
       records: recordList,
     };
   }
+
   async create() {
     const { ctx } = this;
-    const { Record } = ctx.model;
+    const { Record, Classify } = ctx.model;
     ctx.validate(createRule);
     let record = ctx.request.body;
+    const classify = await Classify.findById(record.classify);
+    switch (classify.type) {
+      case 1:
+        record.price = -Math.abs(record.price);
+        break;
+      case 2:
+        record.price = Math.abs(record.price);
+        break;
+      case 3:
+      case 4:
+      default:
+        break;
+    }
     record = new Record(record);
     await record.save();
     ctx.body = record;
   }
+
   async destroy() {
     const { ctx } = this;
     const { Record } = ctx.model;

@@ -13,6 +13,17 @@ class ToolsController extends Controller {
     const { ctx } = this;
     const { Record } = ctx.model;
     const temp = await Record.updateMany({ type: null }, { type: 1 });
+    /**
+     * 消费为负数
+     */
+    const list = await Record.find({}).populate('classify');
+    for (let i = 0; i < list.length; i++) {
+      const temp = list[i];
+      if (temp.classify && temp.classify.type === 1) {
+        temp.price = -Math.abs(temp.price);
+        await temp.save();
+      }
+    }
     ctx.body = temp;
   }
   /** 根据配置文件初始化 账号、分类 */

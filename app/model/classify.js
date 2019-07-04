@@ -8,7 +8,7 @@ module.exports = app => {
     name: { type: String, default: '', trim: true }, // 名称
     genera: { ref: 'Genera', type: Schema.Types.ObjectId }, // 归属
     remark: { type: String, default: '', trim: true }, // 备注
-    type: { type: Number, default: 1 }, // 类型
+    type: { type: Number, default: 1 }, // 类型  1：消费 2：收入 3：转账 4：借贷
   }, {
     timestamps: true,
   });
