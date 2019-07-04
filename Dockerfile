@@ -1,7 +1,5 @@
 FROM node:8.9-alpine
 ENV NODE_ENV production
-RUN /bin/cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime \
-&& echo 'Asia/Shanghai' >/etc/timezone
 WORKDIR /usr/src/app
 COPY ["package.json", "package-lock.json*", "npm-shrinkwrap.json*", "./"]
 # RUN npm --registry https://registry.npm.taobao.org install --production --silent && mv node_modules ../
