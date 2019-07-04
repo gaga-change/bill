@@ -9,9 +9,9 @@ const classifyInit = [{
   type: 1,
   children: [ '共享单车', '共享汽车', '打车', '停车费', '火车', '汽车', '公交' ],
 }, {
-  name: '消费',
+  name: '购物',
   type: 1,
-  children: [ '书籍', '衣服', '鞋子', '超市' ],
+  children: [ '书籍', '衣服', '鞋子', '超市', '其他' ],
 }, {
   name: '娱乐',
   type: 1,
