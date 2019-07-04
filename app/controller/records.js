@@ -31,20 +31,36 @@ class RecordsController extends Controller {
     ctx.validate(createRule);
     let record = ctx.request.body;
     const classify = await Classify.findById(record.classify);
+    const { account1, account2 } = record;
+    let temp1 = { ...record, account: account1 };
+    let temp2 = { ...record, account: account2 };
     switch (classify.type) {
       case 1:
+        // 支出
         record.price = -Math.abs(record.price);
+        record = new Record(record);
+        await record.save();
         break;
       case 2:
+        // 收入
         record.price = Math.abs(record.price);
+        record = new Record(record);
+        await record.save();
         break;
       case 3:
+        // 账户互转
+        temp1.price = -Math.abs(temp1.price);
+        temp1 = new Record(temp1);
+        await temp1.save();
+        temp2.price = Math.abs(temp2.price);
+        temp2 = new Record(temp2);
+        await temp2.save();
+        break;
       case 4:
       default:
         break;
     }
-    record = new Record(record);
-    await record.save();
+
     ctx.body = record;
   }
 

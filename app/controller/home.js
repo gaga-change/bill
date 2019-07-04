@@ -13,8 +13,8 @@ class HomeController extends Controller {
     );
     const generaList = await ctx.model.Genera.find({});
     const generaMap = {};
-    generaList.forEach(({ id, name }) => {
-      generaMap[id] = name;
+    generaList.forEach(({ id, name, type }) => {
+      generaMap[id] = { name, type };
     });
     await ctx.render('index.tpl', { accountList, classifyList, generaMap });
   }

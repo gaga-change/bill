@@ -21,8 +21,8 @@
       <div class="layui-tab " lay-filter="classify">
         <ul class="layui-tab-title">
           {% for group in classifyList %}
-            <li lay-id='{{loop.index}}'>
-              {{generaMap[group._id]}}
+            <li lay-id='{{loop.index}}' data-type={{generaMap[group._id].type}}>
+              {{generaMap[group._id].name}}
             </li>
           {% endfor %}
         </ul>
@@ -45,10 +45,29 @@
             <input type="number" name="price" required  lay-verify="required" placeholder="请输入金额" autocomplete="off" class="layui-input">
           </div>
         </div>
-        <div class="layui-form-item">
-          <label class="layui-form-label">选择框</label>
+        <div class="layui-form-item" id="accountChoose1">
+          <label class="layui-form-label">账户</label>
           <div class="layui-input-block">
             <select name="account" lay-verify="required">
+              {% for item in accountList %}
+                <option value="{{item.id}}">
+                  {{item.name}}</option>
+              {% endfor %}
+            </select>
+          </div>
+        </div>
+        <div class="layui-form-item" id="accountChoose2" style="display:none">
+          <label class="layui-form-label">资金流动</label>
+          <div class="layui-input-inline">
+            <select name="account1" lay-verify="required">
+              {% for item in accountList %}
+                <option value="{{item.id}}">
+                  {{item.name}}</option>
+              {% endfor %}
+            </select>
+          </div>
+          <div class="layui-input-inline">
+            <select name="account2" lay-verify="required">
               {% for item in accountList %}
                 <option value="{{item.id}}">
                   {{item.name}}</option>
@@ -184,7 +203,22 @@
           createRecord(data.field)
           return false;
         });
-        
+
+        // 监听tab 切换
+        element.on('tab(classify)', function (data) {
+          console.log(data);
+          // 判断是否时转账类型，动态显示表单
+          var type = Number($(data.elem.context).attr('data-type'))
+          $('.layui-tab-item[data-id="'+ (data.index + 1) +'"]').find('.classifyItem')[0].click()
+          if (type === 3 || type === 4) {
+            $('#accountChoose1').hide()
+            $('#accountChoose2').show()
+          } else {
+            $('#accountChoose1').show()
+            $('#accountChoose2').hide()
+          }
+        });
+
         //监听行工具事件
         table.on('tool(recordTable)', function (obj) {
           var data = obj.data;
