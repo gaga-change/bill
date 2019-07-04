@@ -1,6 +1,12 @@
 # bill
 
+## 注意事项
 
+容器启动时映射下时区
+```
+/etc/timezone:/etc/timezone 
+/etc/localtime:/etc/localtime
+```
 
 ## QuickStart
 
