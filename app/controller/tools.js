@@ -5,6 +5,16 @@ const Controller = require('egg').Controller;
 const initConfig = require('../../config/init');
 
 class ToolsController extends Controller {
+  /** 升级新版本 */
+  async update() {
+    /**
+     * 流水增加类型
+     */
+    const { ctx } = this;
+    const { Record } = ctx.model;
+    const temp = await Record.updateMany({ type: null }, { type: 1 });
+    ctx.body = temp;
+  }
   /** 根据配置文件初始化 账号、分类 */
   async init() {
     const { ctx } = this;

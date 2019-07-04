@@ -13,7 +13,7 @@ class RecordsController extends Controller {
     const { Record } = ctx.model;
     const pageSize = Number(ctx.query.pageSize) || 20;
     const page = Number(ctx.query.page) || 1;
-    const recordList = await Record.find({})
+    const recordList = await Record.find({ type: 1 })
       .populate('account classify')
       .sort({ date: -1, createdAt: -1 })
       .limit(pageSize)
@@ -36,7 +36,8 @@ class RecordsController extends Controller {
     const { ctx } = this;
     const { Record } = ctx.model;
     const { id } = ctx.params;
-    ctx.body = await Record.deleteOne({ _id: id });
+    // 逻辑删除
+    ctx.body = await Record.updateOne({ _id: id }, { type: 0 });
   }
 }
 
