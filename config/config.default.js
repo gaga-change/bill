@@ -31,7 +31,9 @@ module.exports = appInfo => {
     },
     mongoose: {
       url: mongodbConnectLink,
-      options: {},
+      options: {
+        useFindAndModify: false,
+      },
       plugins: [],
     },
   };

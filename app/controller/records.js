@@ -20,7 +20,7 @@ class RecordsController extends Controller {
       .limit(pageSize)
       .skip((page - 1) * pageSize);
     ctx.body = {
-      count: await Record.count({}),
+      count: await Record.countDocuments({}),
       records: recordList,
     };
   }
