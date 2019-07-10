@@ -10,4 +10,6 @@ module.exports = app => {
   router.get('/init', controller.tools.init);
   router.get('/update', controller.tools.update);
   router.resources('records', '/api/records', controller.records);
+  router.resources('classifies', '/api/classifies', controller.classify);
+  router.resources('generas', '/api/generas', controller.genera);
 };
